@@ -1,23 +1,42 @@
 
-<a class="btn btn-success" href="http://mvcpure/index/form">Add new task</a>
+<p>
+	<a class="btn btn-success" href="/index/form">Add new task</a>
+</p>
+<hr>
 
-<table class="table table-hover">
+<div class="row">
+	<form action="/index/list" method="post" class="col-md-12">
+		<div class="form-group">
+			<select name="select_sort" id="select_sort" class="form-control">
+				<option value="name" <?php if(Session::get('select_sort') == 'name') echo 'selected'; ?> >Name</option>
+				<option value="email" <?php if(Session::get('select_sort') == 'email') echo 'selected'; ?> >Email</option>
+				<option value="status"<?php if(Session::get('select_sort') == 'status') echo 'selected'; ?> >Status</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Sort" class="btn -btn-default col-md-1">
+		</div>
+	</form>
+</div>
+<hr>
+
+
+<table class="table table-hover table-bordered">
 	<thead>
 		<tr>
-			<th>Id</th>
-			<th>Title</th>
+			<th>Name</th>
+			<th>Email</th>
 			<th>Text</th>
 			<th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
 <?php 
-// echo 'Data: '; print_r($data);
-foreach ($data as $item) {
+foreach ($data['task'] as $item) {
 ?>
 <tr>
-	<td><?= $item['id']; ?></td>
-	<td><?= $item['title']; ?></td>
+	<td><?= $item['name']; ?></td>
+	<td><?= $item['email']; ?></td>
 	<td><?= $item['text']; ?></td>
 	<td><?php
 		if($item['status']==0) echo 'inactive';
@@ -30,3 +49,14 @@ foreach ($data as $item) {
 ?>
 	</tbody>
 </table>
+
+<div><?php
+if($data['paginationSize'] > 1) {
+	for ($i=1; $i<=$data['paginationSize']; $i++) {
+		?>
+		<a href="/index/list/<?= $i?>" class="btn btn-default <?php if($data['page']==$i) echo 'btn-success' ?>"><?= $i?></a>
+	<?php
+	}
+}
+	?></div>
+<hr>
