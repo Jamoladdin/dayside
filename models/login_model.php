@@ -27,7 +27,7 @@ class Login_Model extends Model
 			Session::init();
 			Session::set('loggedIn', true);
 			
-			header('location: http://mvcpure/dashboard/index');
+			header('/dashboard/index');
 		}
 		else {
 			header('location: ../login'); 
