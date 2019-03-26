@@ -9,7 +9,6 @@ class Dashboard extends Controller
 	function __construct()
 	{
 		parent:: __construct();
-		// echo 'We are in Login controller';
 		Session::init();
 		$logged = Session::get('loggedIn');
 		if ($logged == false) {
@@ -19,19 +18,18 @@ class Dashboard extends Controller
 		}
 	}
 
-	public function index() {
-		$data = $this->model->index();
-		$this->view->render('dashboard/index', $data);
+	public function index($page = 1) {
+		$data = $this->model->index($page);
+		$this->view->render('/dashboard/index', $data);
 	}
 
 	public function form($id = null) {
 		$data = $this->model->form($id);
-		$this->view->render('dashboard/form', $data);
+		$this->view->render('/dashboard/form', $data);
 	}
 
 	public function update() {
 		$this->model->update();
-		// $this->view->render('dashboard/index');
 	}
 
 	public function logout() {
