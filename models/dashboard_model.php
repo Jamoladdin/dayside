@@ -11,13 +11,39 @@ class Dashboard_Model extends Model
 		parent::__construct();
 	}
 
-	public function index()
+	public function index($page)
 	{
-		$sth = $this->db->prepare('SELECT * FROM tasks');
+		$sth = $this->db->prepare('SELECT COUNT(id) FROM tasks');
 		$sth->execute();
-		
-		$data = $sth->fetchAll();
 
+		$data = $sth->fetch();
+		$paginationSize = (int)($data[0]/3);
+		if($data[0]%3 != 0) $paginationSize++;
+
+		Session::init();
+		if (!isset($_POST['select_sort2']) && Session::get('select_sort2') == null) {
+			Session::set('select_sort2', 'name');
+		} else if(isset($_POST['select_sort2'])){
+			Session::set('select_sort2', $_POST['select_sort2']);
+		}
+		$sth2 = $this->db->prepare('SELECT * FROM tasks ORDER BY '.Session::get('select_sort2'));
+
+		$sth2->execute();
+
+		$tasks = $sth2->fetchAll();
+
+		$pages = ($page-1)*3;
+
+		$task = [];
+		for($i=$pages; $i<$pages+3 && $i<$data[0]; $i++){
+			$task[] = $tasks[$i];
+		}
+
+		$data = array(
+			'paginationSize' => $paginationSize,
+			'task' => $task,
+			'page' => $page
+		);
 		return $data;
 	}
 
@@ -35,22 +61,14 @@ class Dashboard_Model extends Model
 
 	public function update()
 	{
-		// $data = [
-		//     'title' => $_POST['title'],
-		//     'status' => $_POST['status'],
-		//     'text' => $_POST['text'],
-		//     'id' => $_POST['id'],
-		// ];
-		// print_r($data);die();
-		$sth= $this->db->prepare("UPDATE tasks SET title=:title, text=:text, status=:status WHERE id = :id");
+		$sth= $this->db->prepare("UPDATE tasks SET text=:text, status=:status WHERE id = :id");
 		$sth->execute(array(
 			':id' => $_POST['id'],
-			':title' => $_POST['title'],
 			':text' => $_POST['text'],
 			':status' => $_POST['status'],
 		));
 
-		header('location: http://mvcpure/dashboard/index');
+		header('location: ../dashboard/index');
 	}
 
 }
