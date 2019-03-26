@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<form action="http://mvcpure/login/run" method="post" class="form-horizontal" >
+<form action="/login/run" method="post" class="form-horizontal" >
 	
 	<div class="form-group">
 		<label class="control-label col-sm-1" for="">Login:</label>
