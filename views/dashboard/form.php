@@ -1,14 +1,7 @@
 
-<form class="form-horizontal" action="http://mvcpure/dashboard/update" method="post">
-	
+<form class="form-horizontal" action="/dashboard/update" method="post">
+
 	<input type="text" name="id" hidden value="<?= $data[0]['id'] ?>">
-	
-	<div class="form-group">
-		<label class="control-label col-sm-1" for="">Title</label>
-		<div class="col-sm-11">
-			<input class="form-control" type="text" name="title" value="<?= $data[0]['title'] ?>">
-		</div>
-	</div>
 
 	<div class="form-group">
 		<label class="control-label col-sm-1" for="">Text</label>
@@ -29,7 +22,7 @@
 	
 	<div class="form-group"> 
 	    <div class="col-sm-offset-1 col-sm-11">
-	    	<input type="submit" value="Submit" class="btn btn-default>
+	    	<input type="submit" value="Submit" class="btn btn-default">
 	    </div>
 	</div>
 
